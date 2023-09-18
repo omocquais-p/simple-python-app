@@ -28,3 +28,12 @@ docker run -p 5001:5001 my-simple-python-app
 ```
 docker run -d -p 5001:5001 my-simple-python-app
 ```
+
+Build the app with Cloud Native Buildpacks
+```
+pack build python-app-pack --builder paketobuildpacks/builder:base
+```
+
+```
+docker run --env PORT=5003 --publish 5003:5003 python-app-pack
+```
