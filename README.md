@@ -20,13 +20,10 @@ pip install -r requirements.txt
 `docker build -t my-simple-python-app .`
 
 - Run the application
-```
-docker run -p 5001:5001 my-simple-python-app
-```
 
 - Run the application (detached mode)
 ```
-docker run -d -p 5001:5001 my-simple-python-app
+docker run --env PORT=5003 -d -p 5003:5003 my-simple-python-app
 ```
 
 Build the app with Cloud Native Buildpacks
