@@ -1,0 +1,34 @@
+---
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  labels:
+    apps.tanzu.vmware.com/workload-type: web
+    apps.tanzu.vmware.com/language: python
+    app.kubernetes.io/part-of: demo-python-app
+    tanzu.app.live.view: "true"
+    tanzu.app.live.view.application.name: demo-python-app
+  name: demo-python-app
+  namespace: apps
+spec:
+  params:
+    - name: annotations
+      value:
+        autoscaling.knative.dev/min-scale: "1"
+    - name: gitops_server_address
+      value: ssh://git@github.com  # important to have the protocol ssh://
+    - name: gitops_repository_owner
+      value: omocquais-p
+    - name: gitops_repository_name
+      value: demo-python-app-gitops
+    - name: gitops_branch
+      value: dev
+    - name: gitops_commit_message
+      value: "Update demo-python-app config"
+    - name: gitops_ssh_secret
+      value: git-github-ssh
+  source:
+    git:
+      ref:
+        branch: main
+      url: ssh://git@github.com/omocquais-p/simple-python-app.git
