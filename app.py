@@ -4,6 +4,26 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 import psycopg2
 from pyservicebinding import binding
+from logging.config import dictConfig
+
+dictConfig(
+    {
+        "version": 1,
+        "formatters": {
+            "default": {
+                "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s",
+            }
+        },
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "stream": "ext://sys.stdout",
+                "formatter": "default",
+            }
+        },
+        "root": {"level": "DEBUG", "handlers": ["console"]},
+    }
+)
 
 try:
     sb = binding.ServiceBinding()
@@ -29,24 +49,12 @@ def get_db_connection():
     return conn
 
 def create_tables():
-    """ create tables in the PostgreSQL database"""
-    commands = (
-        """
-        CREATE TABLE IF NOT EXISTS  CUSTOMER (
-                          ID VARCHAR(50) NOT NULL PRIMARY KEY,
-                          FIRST_NAME VARCHAR(50) NOT NULL,
-                          LAST_NAME VARCHAR(50) NOT NULL,
-                          COMPANY_NAME VARCHAR(50) NOT NULL)
-        """
-        )
     conn = None
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        # create table one by one
-        for command in commands:
-            cur.execute(command)
-
+        app.logger.info("Before Table creation")
+        cur.execute("CREATE TABLE IF NOT EXISTS  CUSTOMER (ID VARCHAR(50) NOT NULL PRIMARY KEY,FIRST_NAME VARCHAR(50) NOT NULL,LAST_NAME VARCHAR(50) NOT NULL, COMPANY_NAME VARCHAR(50) NOT NULL)")
         app.logger.info("Table created")
         # close communication with the PostgreSQL database server
         cur.close()
