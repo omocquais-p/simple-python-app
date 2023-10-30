@@ -18,6 +18,7 @@ services:
       - postgres
     environment:
       PORT: 8080
+      DB_HOST: postgres_demo_python
       DB_USERNAME: admin
       DB_PASSWORD: admin
     ports:

@@ -32,3 +32,9 @@ spec:
       ref:
         branch: main
       url: ssh://git@github.com/omocquais-p/simple-python-app.git
+  serviceClaims:
+    - name: db1
+      ref:
+        apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+        kind: ClassClaim
+        name: postgres-1
