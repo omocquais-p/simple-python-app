@@ -22,7 +22,38 @@ def get_db_connection():
         database=binding['database'],
         user=binding['username'],
         password=binding['password'])
+
+
+
     return conn
+
+def create_tables():
+    """ create tables in the PostgreSQL database"""
+    commands = (
+        """
+        CREATE TABLE IF NOT EXISTS  CUSTOMER (
+                          ID VARCHAR(50) NOT NULL PRIMARY KEY,
+                          FIRST_NAME VARCHAR(50) NOT NULL ,
+                          LAST_NAME VARCHAR(50) NOT NULL ,
+                          COMPANY_NAME VARCHAR(50) NOT NULL);
+        """
+        )
+    conn = None
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        # create table one by one
+        for command in commands:
+            cur.execute(command)
+        # close communication with the PostgreSQL database server
+        cur.close()
+        # commit the changes
+        conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
 
 @app.route('/create/', methods=('GET', 'POST'))
 def create():
@@ -46,6 +77,8 @@ def create():
 
 @app.route('/')
 def index():
+    create_tables()
+
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute('SELECT * FROM CUSTOMER;')
