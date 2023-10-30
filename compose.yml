@@ -1,0 +1,26 @@
+version: '3.5'
+services:
+  postgres:
+    container_name: postgres_demo_python
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: customers
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./create_tables.sql:/docker-entrypoint-initdb.d/db.sql
+      - ./postgres-data:/var/lib/postgresql/data
+  app:
+    image: "demo-python-app"
+    depends_on:
+      - postgres
+    environment:
+      PORT: 8080
+      DB_USERNAME: admin
+      DB_PASSWORD: admin
+    ports:
+      - "8080:8080"
+volumes:
+  postgres-data:

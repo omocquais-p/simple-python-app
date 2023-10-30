@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} Add a New Customer {% endblock %}</h1>
+<form method="post">
+    <p>
+        <label for="id">Id</label>
+        <input type="text" name="id"
+               placeholder="Customer Id">
+        </input>
+    </p>
+
+    <p>
+        <label for="firstName">First Name</label>
+        <input type="text" name="firstName"
+               placeholder="Customer firstName">
+        </input>
+    </p>
+
+    <p>
+        <label for="name">Name</label>
+        <input type="text" name="name"
+               placeholder="Customer Last Name">
+        </input>
+    </p>
+
+    <p>
+        <label for="companyName">Company Name</label>
+        <input type="text" name="companyName"
+               placeholder="Customer company name">
+        </input>
+    </p>
+
+    <p>
+        <button type="submit">Submit</button>
+    </p>
+</form>
+{% endblock %}

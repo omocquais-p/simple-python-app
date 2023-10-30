@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>Flask Docker</title>
+    <title>{% block title %} {% endblock %} - FlaskApp</title>
     <style>
         nav a {
             color: #d64161;
@@ -21,29 +19,15 @@
 
     </style>
 </head>
-
 <body>
-
 <nav>
     <a href="{{ url_for('index') }}">FlaskApp</a>
     <a href="{{ url_for('create') }}">Create</a>
     <a href="#">About</a>
 </nav>
 <hr>
-
-<h1>This is a Flask App containerised with Docker !!</h1>
-
-{% block content %}
-<h1>{% block title %} Customers {% endblock %}</h1>
-{% for customer in  customers %}
-<div class='customer'>
-    <p>Id: {{ customer[0] }}</p>
-    <p>First Name: {{ customer[1] }}</p>
-    <p>Last Name: {{ customer[2] }}</p>
-    <p>Company Name: {{ customer[3] }}</p>
+<div class="content">
+    {% block content %} {% endblock %}
 </div>
-{% endfor %}
-{% endblock %}
-
 </body>
 </html>

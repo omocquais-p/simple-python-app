@@ -11,3 +11,9 @@ install: kubeconfig
 	set -e ;\
 	./tap/02-deploy.sh ;\
 	}
+
+build-image:
+	{ \
+	set -e ;\
+	pack build demo-python-app --builder paketobuildpacks/builder-jammy-base ;\
+	}
