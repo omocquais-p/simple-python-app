@@ -14,11 +14,12 @@ except binding.ServiceBindingRootMissingError as msg:
 
 app = Flask(__name__)
 def get_db_connection():
+    print("DB-URI------------")
     print(db_uri)
     # Connect to an existing database
     conn = psycopg2.connect(
         host=binding['host'],
-        database="customers",
+        database=binding['database'],
         user=binding['username'],
         password=binding['password'])
     return conn
