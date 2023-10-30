@@ -1,16 +1,26 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 import psycopg2
+from pyservicebinding import binding
+
+try:
+    sb = binding.ServiceBinding()
+    bindings_list = sb.bindings("postgresql")
+    binding = bindings_list[0]
+    db_uri = 'postgresql://%s:%s@%s/%s' % (binding['username'], binding['password'], binding['host'], binding['database'])
+except binding.ServiceBindingRootMissingError as msg:
+    # log the error message and retry/exit
+    print("SERVICE_BINDING_ROOT env var not set")
 
 app = Flask(__name__)
-
 def get_db_connection():
+    print(db_uri)
     # Connect to an existing database
     conn = psycopg2.connect(
-        host=os.environ['DB_HOST'],
+        host=binding['host'],
         database="customers",
-        user=os.environ['DB_USERNAME'],
-        password=os.environ['DB_PASSWORD'])
+        user=binding['username'],
+        password=binding['password'])
     return conn
 
 @app.route('/create/', methods=('GET', 'POST'))
