@@ -37,7 +37,6 @@ except binding.ServiceBindingRootMissingError as msg:
 
 app = Flask(__name__)
 def get_db_connection():
-    app.logger.info("get_db_connection- DB-URI------------")
     app.logger.info(db_uri)
     # Connect to an existing database
     conn = psycopg2.connect(
@@ -92,15 +91,14 @@ def index():
     app.logger.info("Before the table creation if not exists")
     create_tables()
 
-    # conn = get_db_connection()
-    # cur = conn.cursor()
-    # cur.execute('SELECT * FROM CUSTOMER;')
-    # customers = cur.fetchall()
-    # cur.close()
-    # conn.close()
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM CUSTOMER')
+    customers = cur.fetchall()
+    cur.close()
+    conn.close()
 
-    # return render_template('index.html', customers=customers)
-    return render_template('index.html')
+    return render_template('index.html', customers=customers)
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5066))
