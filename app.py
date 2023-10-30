@@ -1,5 +1,3 @@
-import sys
-
 from flask import Flask, render_template, request, redirect, url_for
 import os
 import psycopg2
@@ -52,9 +50,8 @@ def create_tables():
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        app.logger.info("Before Table creation")
         cur.execute("CREATE TABLE IF NOT EXISTS  CUSTOMER (ID VARCHAR(50) NOT NULL PRIMARY KEY,FIRST_NAME VARCHAR(50) NOT NULL,LAST_NAME VARCHAR(50) NOT NULL, COMPANY_NAME VARCHAR(50) NOT NULL)")
-        app.logger.info("Table created")
+        app.logger.info("Table created if not exists")
         # close communication with the PostgreSQL database server
         cur.close()
         # commit the changes
@@ -87,10 +84,7 @@ def create():
 
 @app.route('/')
 def index():
-    app.logger.info(db_uri)
-    app.logger.info("Before the table creation if not exists")
     create_tables()
-
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute('SELECT * FROM CUSTOMER')
