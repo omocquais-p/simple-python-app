@@ -9,6 +9,7 @@ try:
     sb = binding.ServiceBinding()
     bindings_list = sb.bindings("postgresql")
     binding = bindings_list[0]
+
     db_uri = 'postgresql://%s:%s@%s/%s' % (binding['username'], binding['password'], binding['host'], binding['database'])
 except binding.ServiceBindingRootMissingError as msg:
     # log the error message and retry/exit
@@ -16,16 +17,14 @@ except binding.ServiceBindingRootMissingError as msg:
 
 app = Flask(__name__)
 def get_db_connection():
-    print("get_db_connection- DB-URI------------", file=sys.stdout)
-    print(db_uri, file=sys.stdout)
+    app.logger.info("get_db_connection- DB-URI------------")
+    app.logger.info(db_uri)
     # Connect to an existing database
     conn = psycopg2.connect(
         host=binding['host'],
         database=binding['database'],
         user=binding['username'],
         password=binding['password'])
-
-
 
     return conn
 
@@ -48,13 +47,13 @@ def create_tables():
         for command in commands:
             cur.execute(command)
 
-        print("Table created", file=sys.stdout)
+        app.logger.info("Table created")
         # close communication with the PostgreSQL database server
         cur.close()
         # commit the changes
         conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+        app.logger.error(error)
     finally:
         if conn is not None:
             conn.close()
@@ -84,11 +83,13 @@ def index():
     create_tables()
 
     conn = get_db_connection()
+
     cur = conn.cursor()
     cur.execute('SELECT * FROM CUSTOMER;')
     customers = cur.fetchall()
     cur.close()
     conn.close()
+
     return render_template('index.html', customers=customers)
 
 if __name__ == "__main__":
