@@ -34,9 +34,9 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS  CUSTOMER (
                           ID VARCHAR(50) NOT NULL PRIMARY KEY,
-                          FIRST_NAME VARCHAR(50) NOT NULL ,
-                          LAST_NAME VARCHAR(50) NOT NULL ,
-                          COMPANY_NAME VARCHAR(50) NOT NULL);
+                          FIRST_NAME VARCHAR(50) NOT NULL,
+                          LAST_NAME VARCHAR(50) NOT NULL,
+                          COMPANY_NAME VARCHAR(50) NOT NULL)
         """
         )
     conn = None
@@ -80,17 +80,19 @@ def create():
 
 @app.route('/')
 def index():
+    app.logger.info(db_uri)
+    app.logger.info("Before the table creation if not exists")
     create_tables()
 
-    conn = get_db_connection()
+    # conn = get_db_connection()
+    # cur = conn.cursor()
+    # cur.execute('SELECT * FROM CUSTOMER;')
+    # customers = cur.fetchall()
+    # cur.close()
+    # conn.close()
 
-    cur = conn.cursor()
-    cur.execute('SELECT * FROM CUSTOMER;')
-    customers = cur.fetchall()
-    cur.close()
-    conn.close()
-
-    return render_template('index.html', customers=customers)
+    # return render_template('index.html', customers=customers)
+    return render_template('index.html')
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5066))
