@@ -1,3 +1,5 @@
+import sys
+
 from flask import Flask, render_template, request, redirect, url_for
 import os
 import psycopg2
@@ -14,8 +16,8 @@ except binding.ServiceBindingRootMissingError as msg:
 
 app = Flask(__name__)
 def get_db_connection():
-    print("DB-URI------------")
-    print(db_uri)
+    print("get_db_connection- DB-URI------------", file=sys.stdout)
+    print(db_uri, file=sys.stdout)
     # Connect to an existing database
     conn = psycopg2.connect(
         host=binding['host'],
@@ -45,6 +47,8 @@ def create_tables():
         # create table one by one
         for command in commands:
             cur.execute(command)
+
+        print("Table created", file=sys.stdout)
         # close communication with the PostgreSQL database server
         cur.close()
         # commit the changes
