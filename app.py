@@ -35,7 +35,6 @@ except binding.ServiceBindingRootMissingError as msg:
 
 app = Flask(__name__)
 def get_db_connection():
-    app.logger.info(db_uri)
     # Connect to an existing database
     conn = psycopg2.connect(
         host=binding['host'],
