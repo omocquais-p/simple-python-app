@@ -19,7 +19,8 @@ make workload-deploy
 make print-tap-gui-url
 #_ECHO_OFF
 
-# https://github.com/omocquais-p/demo-python-app-gitops/blob/dev/config/apps/demo-python-app/delivery.yml
+# Register catalog file: https://github.com/omocquais-p/simple-python-app/blob/main/catalog/catalog-info.yaml
+# Check generated Kubernetes manifest file: https://github.com/omocquais-p/demo-python-app-gitops/blob/dev/config/apps/demo-python-app/delivery.yml
 
 #_ECHO_# Questions?
 
