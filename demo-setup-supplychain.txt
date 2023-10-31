@@ -1,0 +1,22 @@
+# source /Users/omocquais/IdeaProjects/demorunner/demorunner.sh demo-setup-supplychain.txt
+
+#_ECHO_OFF
+
+# Prep for demo
+export DEMO_DELAY=120
+export KUBECONFIG=/Users/omocquais/Documents/dev/tap-sandbox/tap/config
+
+# Clean up from previous runs
+
+# Start demo
+clear
+
+#_ECHO_ON
+#_ECHO_# Add secret
+
+make setup-supplychains
+
+#_ECHO_OFF
+
+#_ECHO_# Questions?
+

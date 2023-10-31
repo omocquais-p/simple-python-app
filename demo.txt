@@ -1,0 +1,25 @@
+# source /Users/omocquais/IdeaProjects/demorunner/demorunner.sh demo.txt
+
+#_ECHO_OFF
+
+# Prep for demo
+export DEMO_DELAY=120
+export KUBECONFIG=/Users/omocquais/Documents/dev/tap-sandbox/tap/config
+
+# Clean up from previous runs
+tanzu service class-claim delete postgres-1 --yes
+tanzu apps workload delete demo-python-app --yes
+
+# Start demo
+clear
+
+#_ECHO_ON
+#_ECHO_# Deploy a workload (Python Flask web application)
+make workload-deploy
+make print-tap-gui-url
+#_ECHO_OFF
+
+# https://github.com/omocquais-p/demo-python-app-gitops/blob/dev/config/apps/demo-python-app/delivery.yml
+
+#_ECHO_# Questions?
+
