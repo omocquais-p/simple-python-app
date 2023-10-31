@@ -40,9 +40,8 @@ docker run --env PORT=5003 --publish 5003:5003 python-app-pack
 docker rmi -f python-app-pack
 ```
 
-### Deploy on TAP
+### Deploy the workload on TAP
 
 ```
-make claims
 make workload-deploy
 ```
